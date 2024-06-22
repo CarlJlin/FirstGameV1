@@ -10,8 +10,9 @@ struct Button_State {
 enum {
 	BUTTON_UP,
 	BUTTON_DOWN,
-	BUTTON_LEFT,
-	BUTTON_RIGHT,
+	BUTTON_Z,
+	BUTTON_S,
+
 
 	BUTTON_COUNT, // Should be the last item
 };
