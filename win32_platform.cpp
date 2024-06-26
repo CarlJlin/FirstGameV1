@@ -62,8 +62,9 @@ LRESULT CALLBACK w_callback(_In_ HWND   hwnd, _In_ UINT   uMsg, _In_ WPARAM wPar
 };
 
 
-int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
-{
+int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+	
+	ShowCursor(FALSE);
 	// Create Window Class
 	WNDCLASS wc = {};
 	wc.style = CS_HREDRAW | CS_VREDRAW;
@@ -76,7 +77,15 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 
 
 	// Create Window
-	HWND window = CreateWindowA("Game", "My First Game!", WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, 1280, 720, 0, 0, hInstance, 0);
+	HWND window = CreateWindowA("Game", "Pong by CarlJlin", WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, 1280, 720, 0, 0, hInstance, 0);
+	{
+		//Fullscreen
+		SetWindowLong(window, GWL_STYLE, GetWindowLong(window, GWL_STYLE) & ~WS_OVERLAPPEDWINDOW);
+		MONITORINFO mi = { sizeof(mi) };
+		GetMonitorInfo(MonitorFromWindow(window, MONITOR_DEFAULTTOPRIMARY), &mi);
+		SetWindowPos(window, HWND_TOP, mi.rcMonitor.left, mi.rcMonitor.top, mi.rcMonitor.right - mi.rcMonitor.left, mi.rcMonitor.bottom - mi.rcMonitor.top, SWP_NOOWNERZORDER | SWP_FRAMECHANGED);
+	}
+	
 	HDC hdc = GetDC(window);
 
 	Input input = {};
@@ -119,6 +128,10 @@ input.buttons[b].is_down = is_down;\
 						process_button(BUTTON_DOWN, VK_DOWN);
 						process_button(BUTTON_Z, 'Z');
 						process_button(BUTTON_S, 'S');
+						process_button(BUTTON_W, 'W');
+						process_button(BUTTON_RIGHT, VK_LEFT);
+						process_button(BUTTON_LEFT, VK_RIGHT);
+						process_button(BUTTON_ENTER, VK_RETURN);
 					}
 				}break;
 

@@ -12,6 +12,10 @@ enum {
 	BUTTON_DOWN,
 	BUTTON_Z,
 	BUTTON_S,
+	BUTTON_W,
+	BUTTON_LEFT,
+	BUTTON_RIGHT,
+	BUTTON_ENTER,
 
 
 	BUTTON_COUNT, // Should be the last item
