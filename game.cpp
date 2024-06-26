@@ -2,6 +2,8 @@
 //File game.cpp
 //Project FirstGameV1
 
+#include <cstdlib>
+
 #define is_down(b) input->buttons[b].is_down
 #define pressed(b) input->buttons[b].is_down && input->buttons[b].changed
 #define released(b) (!input->buttons[b].is_down && input->buttons[b].changed)
@@ -9,7 +11,7 @@
 float player_1_p, player_1_dp, player_2_p, player_2_dp;
 float arena_half_size_x = 85, arena_half_size_y = 45;
 float player_half_size_x = 2.5, player_half_size_y = 12;
-float ball_p_x, ball_p_y, ball_dp_x = 130, ball_dp_y, ball_half_size = 1;
+float ball_p_x, ball_p_y, ball_dp_x = -130, ball_dp_y, ball_half_size = 1;
 
 int player_1_score, player_2_score;
 
@@ -40,7 +42,7 @@ enum Gamemode {
 	GM_GAMEPLAY,
 };
 
-Gamemode current_gamemode = GM_MENU;
+Gamemode current_gamemode;
 int hot_button;
 bool ennemy_is_ai;
 
@@ -48,8 +50,9 @@ internal void
 simulate_game(Input* input, float dt) {
 	clear_screen(0x77B5FE);
 	draw_text("PONG !", -18, 25, 2, 0xFFFFFF);
-
+	draw_text("PRESS ESCAPE TO LEAVE", -87, -46, 0.25f, 0x000000);
 	if (current_gamemode == GM_GAMEPLAY) {
+		
 		draw_rect(0, 0, arena_half_size_x, arena_half_size_y, 0xCCCCCC);
 		float player_1_ddp = 0.f; // units per second
 		if (!ennemy_is_ai) {
@@ -114,6 +117,7 @@ simulate_game(Input* input, float dt) {
 		draw_rect(80, player_1_p, player_half_size_x, player_half_size_y, 0xff0000);
 		draw_rect(-80, player_2_p, player_half_size_x, player_half_size_y, 0xff0000);
 
+
 	}
 	else {
 
@@ -121,7 +125,7 @@ simulate_game(Input* input, float dt) {
 			hot_button = !hot_button;
 		}
 
-		if (pressed(BUTTON_ENTER)) {
+		if (pressed(BUTTON_RETURN)) {
 			current_gamemode = GM_GAMEPLAY;
 			ennemy_is_ai = hot_button ? 0 : 1;
 		}
@@ -134,5 +138,8 @@ simulate_game(Input* input, float dt) {
 			draw_text("SINGLEPLAYER", -70, -10, 1, 0x00FF00);
 			draw_text("MULTIPLAYER", 10, -10, 1, 0xFF0000);
 		}
+	}
+	if (pressed(BUTTON_ESCAPE)) {
+		std::exit(0);
 	}
 }
